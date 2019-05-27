@@ -24,24 +24,24 @@ $ composer install
 $ php -S locahost:5003
 ```
 
-The worker for the email recovery can be run using the following command:
+Next, let us run the worker for the email recovery. Open another terminal, and run using the following command:
 
 ```sh
 $ cd services
 $ php email_service.php
 ```
 
-Next, run the API Gateway.
+Next, to run the API Gateway, open another terminal and run the following.
 
 ```sh
 $ cd api
 $ php -S locahost:5002
 ```
 
-And run the Web Client.
+Finally, to run the Web Client, open another terminal and run the following.
 
 ```sh
-$ cd web
+$ cd web/src/
 $ php -S locahost:5001
 ```
 
