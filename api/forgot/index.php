@@ -1,65 +1,64 @@
 <?php
 /**
- * Short description for file
+ * An API gateway for password recovery.
  *
- * Long description for file (if any)...
+ * This part will receive a request for password recovery, and forward
+ * the request to the respective service using cURL.
  *
  */
 
 include('../config.php');
 
+
+/**
+ * Send HTTP request using cURL.
+ *
+ * @param string $url URL of the service.
+ * @param array $post Associative array consisting command and username.
+ * 
+ * @return string A response from the service. 
+ */
 function sendCurl($url, $post) {
-  // create curl resource 
-  $ch = curl_init(); 
-
-  // set url 
-  curl_setopt($ch, CURLOPT_URL, $url); 
-
-  //return the transfer as a string 
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-
-  // curl_setopt($ch, CURLOPT_POST, 1);
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $url);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-
-  // $output contains the output string 
-  $output = curl_exec($ch); 
-
-  // close curl resource to free up system resources 
+  $output = curl_exec($ch);
   curl_close($ch);
 
   return $output;
 }
 
-// get the HTTP method, path and body of the request
+
+/**
+ * The 'listening for the command' part starts here.
+ * Retrieve the HTTP method and the command.
+ */
 $method = $_SERVER['REQUEST_METHOD'];
 
 switch ($method) {
   case 'POST':
-
     // populate data for password recovery
     $post = array(
       'command' => 'password_recovery', 
       'username' => $_POST['username']
     );
 
+    // send HTTP request to service
     $response = sendCurl(AUTH_SERVICE_URL, $post);
 
-    // var_dump($response);
     if($response == 0) {
-
-      // something goes wrong, do something here
+      // something goes wrong, send failure notification to client
       header('Location: ' . WEB_FORGOT_PASS_URL . '?sent=2');
 
     } else {
-
-      // success, do something here
+      // success, send success notification to client
       header('Location: ' . WEB_FORGOT_PASS_URL . '?sent=1');
-
     }
-
     break;
+
   default:
-    // refuse connection
+    // refuse direct access to the API
     header("HTTP/1.0 404 Not Found");
     exit;
 }
