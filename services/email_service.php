@@ -29,6 +29,8 @@ $sendPasswordRecoveryMail = function ($userJson) {
   $headers = 'From: webmaster@example.com' . "\r\n" .
       'Reply-To: webmaster@example.com' . "\r\n" .
       'X-Mailer: PHP/' . phpversion();
+
+  echo " Email is sent to " . $user['username'] . " at " . $user['email'];
   
   // send mail
   mail($to, $subject, $message, $headers);
@@ -46,7 +48,7 @@ $channel = $connection->channel();
 // declare a queue; queue will only be created if not already
 $channel->queue_declare('email_recovery', false, false, false, false);
 
-echo " [*] Waiting for messages. To exit press CTRL+C\n";
+echo " Standby for messages. (Press CTRL+C to exit)\n";
 
 // read message from queue; last parameter is a callback 'sendPasswordRecoveryMail'
 $channel->basic_consume('email_recovery', '', false, true, false, false, $sendPasswordRecoveryMail);

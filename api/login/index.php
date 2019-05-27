@@ -31,6 +31,21 @@ function sendCurl($url, $post) {
 
 
 /**
+ * Basic input validation for security.
+ *
+ * @param string $input Input string.
+ * 
+ * @return string Cleansed input string. 
+ */
+function cleanseInput($input) {
+  $input = trim($input);
+  $input = stripslashes($input);
+  $input = htmlspecialchars($input);
+  return $input;
+}
+
+
+/**
  * The 'listening for the command' part starts here.
  * Retrieve the HTTP method and the command.
  */
@@ -40,9 +55,9 @@ switch ($method) {
   case 'POST':
     // populate data for login
     $post = array(
-      'command' => 'password_recovery', 
-      'username' => $_POST['username'],
-      'password' => $_POST['password']
+      'command' => 'login', 
+      'username' => cleanseInput($_POST['username']),
+      'password' => cleanseInput($_POST['password'])
     );
 
     // send HTTP request to service

@@ -87,12 +87,14 @@ switch ($_POST['command']) {
 
     } else {
       // user does exists, check password
-      if($user == $_POST['password']) {
+      if(!empty($_POST['password']) && $user['password'] == $_POST['password']) {
         // password match
         echo 1;
+
       } else {
         // password does not match
         echo 0;
+
       }
     }
     break;
@@ -110,6 +112,7 @@ switch ($_POST['command']) {
       // user does exists, send message to broker
       $response = sendToMessageQueue($user);
       echo $response;
+
     }
     break;
 
