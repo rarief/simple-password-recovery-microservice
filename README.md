@@ -10,18 +10,25 @@ A little project to demonstrate the basics of distributed system using message q
 
 This project requires Composer and RabbitMQ to run.
 
-To install RabbitMQ, see the following [link](https://www.rabbitmq.com/download.html). To install RabbitMQ in MacOS using brew, ppen terminal and insert the following command:
+To install RabbitMQ, see the following [link](https://www.rabbitmq.com/download.html). To install RabbitMQ in MacOS using brew, open terminal and insert the following command:
 
 ```sh
 $ brew install rabbitmq
 ```
 
-Afterward, the components can be setup. First, setup the Service.
+Afterward, the components can be run. First, setup the Service.
 
 ```sh
 $ cd services
 $ composer install
 $ php -S locahost:5003
+```
+
+The worker for the email recovery can be run using the following command:
+
+```sh
+$ cd services
+$ php email_service.php
 ```
 
 Next, run the API Gateway.
@@ -46,7 +53,7 @@ To access the web client, open `locahost:5001` in your browser.
 
 ## Config
 
-To run the project in a different environment, some changes can be made in the configs file.
+To run the project in a different environment, some changes can be made in the config files.
 
 Config for Web Client: `web/config.php`
 
